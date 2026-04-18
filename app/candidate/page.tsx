@@ -8,6 +8,7 @@
 
 import { getFrameworkData } from '@baddabing/framework/data'
 import { hasCV } from '@/modules/candidate/lib/uploads/has-cv'
+import { UploadDropzone } from '@/modules/candidate/components/upload/UploadDropzone'
 
 export const dynamic = 'force-dynamic'
 
@@ -29,25 +30,7 @@ function UploadGate() {
       <p style={{ color: '#444', marginBottom: 24 }}>
         Upload your CV to begin. Until then, the module can&rsquo;t proceed.
       </p>
-
-      <section
-        style={{
-          border: '2px dashed #999',
-          padding: 32,
-          borderRadius: 4,
-          textAlign: 'center',
-        }}
-      >
-        <p style={{ marginBottom: 16 }}>
-          <strong>Upload your CV</strong>
-        </p>
-        <p style={{ fontSize: 14, color: '#666', marginBottom: 16 }}>
-          PDF, DOCX, or plain text. Max 20 MB.
-        </p>
-        <p style={{ fontSize: 12, color: '#888' }}>
-          (Dropzone component F-1.1.1 lands in the next commit.)
-        </p>
-      </section>
+      <UploadDropzone />
     </main>
   )
 }
