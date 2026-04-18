@@ -14,7 +14,7 @@ import {
   type TestHarness,
   type TestHarnessOptions,
 } from '@baddabing/framework/testing'
-import { candidateModule } from '../manifest.js'
+import { candidateModule } from '../manifest'
 
 /**
  * Build a test harness with candidate-module collections pre-registered

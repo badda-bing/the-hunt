@@ -5,11 +5,11 @@
 //   §Positive-TS-1.1.1 / §Negative-TS-1.1.1
 
 import { describe, it, expect } from 'vitest'
-import { candidateTestHarness } from '../test-helpers.js'
+import { candidateTestHarness } from '../test-helpers'
 import {
   DEFAULT_CANDIDATE_ID,
   type UploadMetadata,
-} from './types.js'
+} from './types'
 
 function validMetadata(overrides: Partial<UploadMetadata> = {}): UploadMetadata {
   return {
