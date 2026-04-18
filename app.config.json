@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "app": {
+    "name": "the-hunt",
+    "env": "development",
+    "modules": [
+      "candidate",
+      "tracker"
+    ]
+  },
+  "llm": {
+    "providers": [
+      {
+        "id": "default",
+        "type": "anthropic",
+        "apiKeyEnv": "ANTHROPIC_API_KEY"
+      }
+    ],
+    "defaults": {
+      "chatProviderId": "default",
+      "agentProviderId": "default",
+      "agentDefaultModel": "claude-sonnet-4-6"
+    }
+  },
+  "storage": {
+    "backend": "versioned-file",
+    "defaultModuleId": "candidate",
+    "roots": {
+      "config": "./.config",
+      "candidate": "./candidate",
+      "tracker": "./tracker"
+    }
+  },
+  "vector": {
+    "backend": "none"
+  },
+  "events": {
+    "retentionDays": 30
+  },
+  "observability": {
+    "level": "info",
+    "retentionDays": 30,
+    "auditRetentionDays": 365
+  }
+}
