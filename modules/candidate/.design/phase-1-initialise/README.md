@@ -18,14 +18,12 @@
 | # | Step | What the candidate does |
 |---|---|---|
 | 1.1 | [Upload CV](step-1.1-upload-cv/) | Drops a CV (PDF/DOCX/plain text) on the upload screen |
-| 1.2 | Extract to intel *(TBD)* | Reviews what the module extracted from the CV; corrects / confirms |
-| 1.3 | Label timeline gaps *(TBD)* | Labels any career/education gaps on a visual timeline; confirms continuity |
-| 1.4 | Aspirations interview (Oprah) *(TBD)* | 30-min 2-part interview covering vision + next-role specifics |
-| 1.5 | Phase 1 complete *(TBD)* | Sees "Phase 1 complete — Phase 2 unlocked" |
+| 1.2 | [Extract to intel](step-1.2-extract-to-intel/) | Reviews what the module extracted from the CV; corrects / confirms |
+| 1.3 | [Label timeline gaps](step-1.3-label-timeline/) | Labels any career/education gaps on a visual timeline; confirms continuity |
+| 1.4 | [Aspirations interview (Oprah)](step-1.4-aspirations-interview/) | 30-min 2-part interview covering vision + next-role specifics |
+| 1.5 | [Phase 1 complete](step-1.5-phase1-complete/) | Sees "Phase 1 complete — Phase 2 unlocked" |
 
 Each step is a directory with four files: `user-stories.md`, `tech-stories.md`, `features.md`, `tests.md`.
-
-Only step 1.1 is fully detailed at the moment; 1.2–1.5 will be expanded as we implement each in order.
 
 ---
 
