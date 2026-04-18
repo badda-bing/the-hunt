@@ -6,9 +6,11 @@
 
 import { NextResponse } from 'next/server'
 import { getFrameworkData } from '@baddabing/framework/data'
+import { getFrameworkEvents } from '@baddabing/framework/events'
 import { StructuredError, ValidationError } from '@baddabing/framework/errors'
 import { acceptUpload } from '@/modules/candidate/lib/uploads/upload-service'
 import { createDiskRawFileStore } from '@/modules/candidate/lib/uploads/raw-store'
+import { createCvUploadedEmitter } from '@/modules/candidate/lib/uploads/events'
 
 export const runtime = 'nodejs'
 
@@ -28,6 +30,7 @@ export async function POST(req: Request): Promise<Response> {
       {
         store: getFrameworkData('candidate'),
         rawStore: createDiskRawFileStore(),
+        onSuccess: createCvUploadedEmitter(getFrameworkEvents().bus),
       },
       {
         filename: file.name,
