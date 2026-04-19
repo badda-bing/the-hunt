@@ -10,6 +10,13 @@
 export async function register(): Promise<void> {
   if (process.env.NEXT_RUNTIME !== 'nodejs') return
 
+  // Load .env.local before any framework surface boots — Next.js's own
+  // env-loading happens AFTER instrumentation, so framework config
+  // validation would otherwise see an empty process.env. Shell-exported
+  // vars win; .env.local only fills gaps.
+  const { loadEnvLocal } = await import('@baddabing/framework/config')
+  loadEnvLocal()
+
   const { initFrameworkConfig } = await import('@baddabing/framework/config')
   const { initFrameworkData } = await import('@baddabing/framework/data')
   const { initFrameworkEvents } = await import('@baddabing/framework/events')
