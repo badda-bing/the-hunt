@@ -1,0 +1,34 @@
+{
+  "name": "@the-hunt/hunt-full",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Candidate profile building and opportunity tracking — the-hunt's full composition wrapper.",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "vitest run --passWithNoTests",
+    "generate-routes": "node ./node_modules/@baddabing/framework/dist/scaffold/generate-routes-cli.js ."
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "^0.2.114",
+    "@anthropic-ai/sdk": "^0.90.0",
+    "@baddabing/framework": "link:../../../baddabing-framework",
+    "@the-hunt/candidate": "workspace:*",
+    "@the-hunt/tracker": "workspace:*",
+    "better-sqlite3": "^12.9.0",
+    "nats": "^2.29.3",
+    "next": "^14.2.35",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^25.5.0",
+    "@types/react": "^19.2.14",
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.4"
+  }
+}

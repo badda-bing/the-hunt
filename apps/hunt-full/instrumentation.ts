@@ -1,11 +1,12 @@
-// instrumentation.ts
+// apps/hunt-full/instrumentation.ts
 //
 // Next.js instrumentation hook. Runs once at server start, before any
-// route handler. Brings up framework surfaces in dependency order.
-// Node runtime only — edge runtime can't read app.config.json from disk.
+// route handler. Brings up framework surfaces in dependency order,
+// activates every declared module, and fires onStartupFinished for
+// any gated modules waiting on it.
 //
-// Modify this file by calling framework.scaffold.addSurface / addModule
-// from a Claude session rather than editing by hand.
+// Auto-generated shape (post-M6 restructure) — to add a module, run
+// framework.scaffold.addModuleToWrapper and re-run.
 
 export async function register(): Promise<void> {
   if (process.env.NEXT_RUNTIME !== 'nodejs') return
@@ -20,13 +21,21 @@ export async function register(): Promise<void> {
   const { initFrameworkConfig } = await import('@baddabing/framework/config')
   const { initFrameworkData } = await import('@baddabing/framework/data')
   const { initFrameworkEvents } = await import('@baddabing/framework/events')
+  const { initFrameworkUserConfig } = await import('@baddabing/framework/user-config')
 
   await initFrameworkConfig()
   await initFrameworkData()
   await initFrameworkEvents({ forceInProcess: true })
+  await initFrameworkUserConfig()
 
   const { activateModules, markActivated } = await import('@baddabing/framework/lifecycle')
-  const { allModules } = await import('@/modules/registry')
-  await activateModules(allModules)
+
+  const { candidateModule } = await import('@the-hunt/candidate/manifest')
+  const { trackerModule } = await import('@the-hunt/tracker/manifest')
+
+  await activateModules([
+    candidateModule,
+    trackerModule,
+  ])
   markActivated()
 }

@@ -1,0 +1,35 @@
+{
+  "name": "@the-hunt/tracker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Tracker module — role evaluations and application materials. UI-free; wrappers render presentation.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./manifest": {
+      "source": "./src/manifest.ts",
+      "types": "./dist/manifest.d.ts",
+      "default": "./dist/manifest.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run --passWithNoTests",
+    "verify": "node --experimental-strip-types ./node_modules/@baddabing/framework/dist/verify/cli.js ."
+  },
+  "dependencies": {
+    "@baddabing/framework": "link:../../../baddabing-framework",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.4"
+  }
+}

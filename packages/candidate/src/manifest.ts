@@ -1,8 +1,11 @@
-// modules/candidate/manifest.ts
+// packages/candidate/src/manifest.ts
 //
-// Module manifest for the Candidate module. Declares the module's data
-// collections, agents, personas, and lifecycle hooks. Hand-edited as the
-// module evolves (collections added as new tech stories land).
+// Candidate module manifest. Declares data collections, emitted events,
+// wrapper contributions, external-route refs, and activation signals.
+// Hand-edited as the module evolves — a scaffold generated the initial
+// shape; post-M6 restructure moved it from modules/candidate/manifest.ts
+// to here (packages/candidate/src/manifest.ts) as part of the UI-free
+// monorepo layout.
 
 import { z } from 'zod'
 import type { CollectionMetadata } from '@baddabing/framework/data'
@@ -12,7 +15,7 @@ import type { ExternalRouteDeclaration } from '@baddabing/framework/lifecycle'
 import {
   ACCEPTED_CV_MIME_TYPES,
   CV_UPLOADED_EVENT_TYPE,
-} from './lib/uploads/types'
+} from './uploads/types.js'
 
 export interface SidebarItem {
   id: string

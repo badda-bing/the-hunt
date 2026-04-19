@@ -7,7 +7,7 @@
 import { describe, it, expect } from 'vitest'
 import { ValidationError } from '@baddabing/framework/errors'
 import { testHarness } from '@baddabing/framework/testing'
-import { candidateModule } from '../../manifest'
+import { candidateModule } from '../manifest'
 import { acceptUpload } from './upload-service'
 import { createCvUploadedEmitter } from './events'
 import { CV_UPLOADED_EVENT_TYPE, type UploadMetadata } from './types'

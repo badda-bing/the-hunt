@@ -1,29 +1,16 @@
 {
   "name": "the-hunt",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "description": "Candidate profile building and opportunity tracking",
+  "description": "the-hunt — pnpm workspace: UI-free candidate + tracker modules (packages/) consumed by the hunt-full Next.js wrapper (apps/).",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "test": "vitest run --passWithNoTests"
-  },
-  "dependencies": {
-    "@anthropic-ai/claude-agent-sdk": "^0.2.114",
-    "@anthropic-ai/sdk": "^0.90.0",
-    "@baddabing/framework": "link:../baddabing-framework",
-    "better-sqlite3": "^12.9.0",
-    "nats": "^2.29.3",
-    "next": "^14.2.35",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "zod": "^4.3.6"
+    "test": "pnpm -r test",
+    "build": "pnpm -r build",
+    "dev": "pnpm --filter @the-hunt/hunt-full dev",
+    "generate-routes": "pnpm --filter @the-hunt/hunt-full generate-routes"
   },
   "devDependencies": {
-    "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^25.5.0",
-    "@types/react": "^19.2.14",
     "typescript": "^6.0.2",
     "vitest": "^4.1.4"
   }
