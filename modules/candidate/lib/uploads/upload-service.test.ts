@@ -6,7 +6,8 @@
 
 import { describe, it, expect } from 'vitest'
 import { ValidationError, ExternalServiceError } from '@baddabing/framework/errors'
-import { candidateTestHarness } from '../test-helpers'
+import { testHarness } from '@baddabing/framework/testing'
+import { candidateModule } from '../../manifest'
 import { acceptUpload, type UploadServiceDeps } from './upload-service'
 import type { RawFileStore } from './raw-store'
 import {
@@ -38,7 +39,7 @@ function makeFailingRawStore(): RawFileStore {
 }
 
 async function deps(opts: Partial<UploadServiceDeps> = {}): Promise<UploadServiceDeps> {
-  const h = await candidateTestHarness()
+  const h = await testHarness({ modules: [candidateModule] })
   return {
     store: h.store,
     rawStore: makeFakeRawStore(),

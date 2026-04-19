@@ -5,7 +5,8 @@
 //   §Positive-TS-1.1.1 / §Negative-TS-1.1.1
 
 import { describe, it, expect } from 'vitest'
-import { candidateTestHarness } from '../test-helpers'
+import { testHarness } from '@baddabing/framework/testing'
+import { candidateModule } from '../../manifest'
 import {
   DEFAULT_CANDIDATE_ID,
   type UploadMetadata,
@@ -27,7 +28,7 @@ function validMetadata(overrides: Partial<UploadMetadata> = {}): UploadMetadata 
 describe('uploads collection (TS-1.1.1)', () => {
   describe('positive', () => {
     it('registers the `uploads` collection with kind: user', async () => {
-      const h = await candidateTestHarness()
+      const h = await testHarness({ modules: [candidateModule] })
       const meta = h.store.getCollectionMetadata('uploads')
       expect(meta).not.toBeNull()
       expect(meta?.id).toBe('uploads')
@@ -35,7 +36,7 @@ describe('uploads collection (TS-1.1.1)', () => {
     })
 
     it('round-trips an UploadMetadata record via framework.data', async () => {
-      const h = await candidateTestHarness()
+      const h = await testHarness({ modules: [candidateModule] })
       const record = validMetadata()
       await h.store.put('uploads', record.uploadId, record)
 
@@ -44,7 +45,7 @@ describe('uploads collection (TS-1.1.1)', () => {
     })
 
     it('re-uploads produce new versions (each put advances the version)', async () => {
-      const h = await candidateTestHarness()
+      const h = await testHarness({ modules: [candidateModule] })
       // Two uploads for the same candidateId — each gets a distinct uploadId.
       await h.store.put('uploads', 'upl-001', validMetadata({ uploadId: 'upl-001' }))
       await h.store.put('uploads', 'upl-002', validMetadata({ uploadId: 'upl-002' }))
@@ -57,7 +58,7 @@ describe('uploads collection (TS-1.1.1)', () => {
 
   describe('negative', () => {
     it('refuses to purge a user-kind uploads record (P5)', async () => {
-      const h = await candidateTestHarness()
+      const h = await testHarness({ modules: [candidateModule] })
       await h.store.put('uploads', 'upl-001', validMetadata({ uploadId: 'upl-001' }))
       await h.store.delete('uploads', 'upl-001')
 
@@ -68,7 +69,7 @@ describe('uploads collection (TS-1.1.1)', () => {
     })
 
     it('soft-deleted uploads do not appear in listIds without includeDeleted', async () => {
-      const h = await candidateTestHarness()
+      const h = await testHarness({ modules: [candidateModule] })
       await h.store.put('uploads', 'upl-001', validMetadata({ uploadId: 'upl-001' }))
       await h.store.delete('uploads', 'upl-001')
 

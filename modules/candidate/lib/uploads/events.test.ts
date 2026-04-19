@@ -6,7 +6,8 @@
 
 import { describe, it, expect } from 'vitest'
 import { ValidationError } from '@baddabing/framework/errors'
-import { candidateTestHarness } from '../test-helpers'
+import { testHarness } from '@baddabing/framework/testing'
+import { candidateModule } from '../../manifest'
 import { acceptUpload } from './upload-service'
 import { createCvUploadedEmitter } from './events'
 import { CV_UPLOADED_EVENT_TYPE, type UploadMetadata } from './types'
@@ -19,7 +20,7 @@ function makeFakeRawStore(): RawFileStore {
 describe('candidate.cv.uploaded event emission (TS-1.1.4)', () => {
   describe('positive', () => {
     it('emits exactly one candidate.cv.uploaded on successful upload', async () => {
-      const h = await candidateTestHarness()
+      const h = await testHarness({ modules: [candidateModule] })
       await acceptUpload(
         {
           store: h.store,
@@ -41,7 +42,7 @@ describe('candidate.cv.uploaded event emission (TS-1.1.4)', () => {
     })
 
     it('envelope carries the standard fields (id/type/ts/source/payload)', async () => {
-      const h = await candidateTestHarness()
+      const h = await testHarness({ modules: [candidateModule] })
       await acceptUpload(
         {
           store: h.store,
@@ -72,7 +73,7 @@ describe('candidate.cv.uploaded event emission (TS-1.1.4)', () => {
     })
 
     it('meta carries filename + uploadedAt for downstream subscribers', async () => {
-      const h = await candidateTestHarness()
+      const h = await testHarness({ modules: [candidateModule] })
       await acceptUpload(
         {
           store: h.store,
@@ -98,7 +99,7 @@ describe('candidate.cv.uploaded event emission (TS-1.1.4)', () => {
 
   describe('negative', () => {
     it('does NOT emit on validation failure (unsupported format)', async () => {
-      const h = await candidateTestHarness()
+      const h = await testHarness({ modules: [candidateModule] })
       await expect(
         acceptUpload(
           {
@@ -121,7 +122,7 @@ describe('candidate.cv.uploaded event emission (TS-1.1.4)', () => {
     })
 
     it('does NOT emit on raw-store failure (no metadata persisted)', async () => {
-      const h = await candidateTestHarness()
+      const h = await testHarness({ modules: [candidateModule] })
       await expect(
         acceptUpload(
           {
