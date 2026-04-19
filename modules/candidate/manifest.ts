@@ -7,6 +7,8 @@
 import { z } from 'zod'
 import type { CollectionMetadata } from '@baddabing/framework/data'
 import type { EventDeclaration } from '@baddabing/framework/events'
+import type { Contributions } from '@baddabing/framework/contributions'
+import type { ExternalRouteDeclaration } from '@baddabing/framework/lifecycle'
 import {
   ACCEPTED_CV_MIME_TYPES,
   CV_UPLOADED_EVENT_TYPE,
@@ -29,6 +31,8 @@ export interface CandidateManifest {
   sidebar: SidebarItem[]
   collections?: CollectionMetadata[]
   emits?: EventDeclaration[]
+  contributions?: Contributions
+  externalRoutes?: Record<string, ExternalRouteDeclaration>
   schemaVersion?: number
   dependencies?: { modules?: string[] }
 }
@@ -78,6 +82,70 @@ export const candidateModule: CandidateManifest = {
       description: 'Emitted after a CV file + metadata have been persisted (TS-1.1.4).',
     },
   ],
+
+  // M3 contributions — declarative UI-composition vocabulary. The wrapper
+  // (hunt-full or the framework default) reads these at render time. The
+  // candidate module never renders its own UI — wrappers own presentation
+  // (per the M0-locked architectural direction).
+  contributions: {
+    // Top-level visibility: the candidate module only advertises UI once
+    // it's completed activation (M2/PR 6 flipped this key at boot for
+    // eager modules). The predicate holds even when activationEvents
+    // land and modules become gated.
+    visibility: 'module.candidate.active',
+
+    menu: [
+      {
+        id: 'home',
+        location: 'sidebar/top',
+        label: 'Candidate',
+        icon: '/icons/candidate.svg',
+        target: 'candidate:home',
+        order: 10,
+      },
+    ],
+
+    // Phase-1 entry-gate conditional (TS-1.1.3). The "has a CV" flag
+    // flips via a context key the upload-service / gate-logic will set
+    // as Phase 1 matures; for now the widget advertises itself without
+    // gating and the wrapper renders a placeholder.
+    dashboardWidgets: [
+      {
+        id: 'pitchability',
+        label: 'Pitchability snapshot',
+        dataSource: 'candidate.pitchability',
+        sizeHint: 'md',
+        refreshPolicy: 'event-driven',
+        // Not visible until the candidate has uploaded a CV. The context
+        // key flips when hasCV() transitions — wiring planned for
+        // Step 1.2.
+        when: 'collection.uploads.hasRecords',
+      },
+    ],
+
+    notifications: [
+      {
+        type: CV_UPLOADED_EVENT_TYPE,
+        description: 'CV accepted + metadata persisted',
+        severity: 'info',
+      },
+    ],
+
+    theme: {
+      accent: '#4a90e2',
+      iconColor: '#2e5a8a',
+    },
+  },
+
+  // M3/PR 2 — cross-module navigation refs. Candidate declares refs it
+  // wants to link to; the wrapper binds abstract → concrete path at
+  // composition time. hunt-full's app.config will supply the binding.
+  externalRoutes: {
+    trackerLinkBack: {
+      description: 'Link back to the tracker dashboard from a candidate view',
+    },
+  },
+
   schemaVersion: 1,
   dependencies: { modules: [] },
 }
