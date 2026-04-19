@@ -41,8 +41,5 @@
     "level": "info",
     "retentionDays": 30,
     "auditRetentionDays": 365
-  },
-  "routeBindings": {
-    "candidate.trackerLinkBack": "/tracker"
   }
 }
