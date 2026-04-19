@@ -10,6 +10,8 @@
     "test": "vitest run --passWithNoTests"
   },
   "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "^0.2.114",
+    "@anthropic-ai/sdk": "^0.90.0",
     "@baddabing/framework": "link:../baddabing-framework",
     "better-sqlite3": "^12.9.0",
     "nats": "^2.29.3",
