@@ -6,7 +6,7 @@
 
 import { describe, it, expect } from 'vitest'
 import { testHarness } from '@baddabing/framework/testing'
-import { candidateModule } from '../../manifest'
+import { candidateModule } from '../manifest'
 import {
   DEFAULT_CANDIDATE_ID,
   type UploadMetadata,

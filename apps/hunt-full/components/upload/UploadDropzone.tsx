@@ -1,13 +1,17 @@
-// modules/candidate/components/upload/UploadDropzone.tsx
+// apps/hunt-full/components/upload/UploadDropzone.tsx
 //
-// F-1.1.1 — drag-and-drop CV uploader. Thin UI over uploadCv.
+// F-1.1.1 — drag-and-drop CV uploader. Thin UI over uploadCv. Moved
+// from modules/candidate/components/upload/ during the post-M6
+// restructure: UI-free modules live under packages/, wrapper-side UI
+// lives here. The uploadCv fetch helper still ships from the module.
 //
 // Client component. Browser-side; server validation is the authoritative check.
 
 'use client'
 
 import { useRef, useState } from 'react'
-import { uploadCv, type UploadCvResult } from '@/modules/candidate/lib/uploads/upload-client'
+import { uploadCv } from '@the-hunt/candidate/client'
+import type { UploadCvResult } from '@the-hunt/candidate/client'
 
 export interface UploadDropzoneProps {
   /** Called with the new uploadId on success. Callers typically refresh the page. */

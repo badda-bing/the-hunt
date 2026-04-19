@@ -7,8 +7,8 @@
 // Server component — reads framework.data directly.
 
 import { getFrameworkData } from '@baddabing/framework/data'
-import { hasCV } from '@/modules/candidate/lib/uploads/has-cv'
-import { UploadDropzone } from '@/modules/candidate/components/upload/UploadDropzone'
+import { hasCV } from '@the-hunt/candidate'
+import { UploadDropzone } from '@/components/upload/UploadDropzone'
 
 export const dynamic = 'force-dynamic'
 

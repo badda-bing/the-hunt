@@ -2,11 +2,29 @@ node_modules/
 .next/
 coverage/
 **/tsconfig.tsbuildinfo
-events/
+**/dist/
+
+# Runtime event log (Phase 3 durable log — regenerated on boot)
+/events/
+apps/*/events/
+
+# Runtime SQLite stores per module
 **/data.sqlite
 **/data.sqlite-wal
 **/data.sqlite-shm
-.claude/settings.local.json
-.env
+
+# Runtime upload dirs — test artifacts
+/candidate/
+/tracker/
+apps/*/candidate/
+apps/*/tracker/
+
+# Test-run artifacts
+/test/
+
+# .env.local never committed
 .env.local
-.env.*.local
+
+.vscode/
+.DS_Store
+Thumbs.db
