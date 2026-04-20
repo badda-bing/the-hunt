@@ -34,10 +34,9 @@ from a Claude session (do not hand-write manifests).
 
 **Never delete.** This repo follows the global `never-delete` rule at `~/.claude/rules/never-delete.md` — "removals" are moves to `F:/claude-trash/<session>/<datetime>/`.
 
-**Engineering discipline.** Every Claude session MUST read
-[`docs/engineering-discipline.md`](docs/engineering-discipline.md) at
-session start. The file holds the running rules (R1–R5) and the
-lessons-learned log (L1–Ln) with recurring bug classes and their
-avoidance patterns. When a bug is fixed, append a lesson entry
-(symptom, root cause, fix, regression guard). Rule R1: **every bug fix
-ships a regression test that would have failed before the fix.**
+**Engineering discipline lives in the vault, not this repo.** Every Claude session MUST read:
+
+- `F:/Git/obsidian/ALL/baddabing-framework/development-directives.md` — D1–D5 (framework-first / test collections / event-emitted transitions / regression test per fix / single source of truth). Every tech decision and every fix must satisfy these or justify the exception.
+- `F:/Git/obsidian/ALL/baddabing-framework/lessons-learned.md` — the running bug-class log (L1–Ln). Consult before fixing (chances are we've seen this class); append a new entry after fixing (symptom / root cause / fix / regression guard).
+
+See the vault's `design-method.md` for the full design-system conventions. This repo is code; docs + design live in the vault.
