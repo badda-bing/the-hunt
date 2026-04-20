@@ -16,6 +16,7 @@ import { withActivity } from '@baddabing/framework/activities'
 import { acceptUpload } from './uploads/upload-service.js'
 import { createDiskRawFileStore } from './uploads/raw-store.js'
 import { createCvUploadedEmitter } from './uploads/events.js'
+import { UPLOAD_ROUTE_PATH } from './uploads/paths.js'
 import type { AcceptUploadInput } from './uploads/upload-service.js'
 
 /**
@@ -78,5 +79,5 @@ const uploadRoute: WrappedRoute = wrapRoute<AcceptUploadInput, { uploadId: strin
 })
 
 export const routes: Record<string, WrappedRoute> = {
-  'POST /upload': uploadRoute,
+  [`POST ${UPLOAD_ROUTE_PATH}`]: uploadRoute,
 }

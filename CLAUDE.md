@@ -14,9 +14,30 @@ surface, implementation, and architectural decision.
 - **candidate** — Candidate — Candidate profile, intel, and pipeline state
 - **tracker** — Tracker — Role evaluations and application materials
 
+## Design lives in the vault
+
+Design documents (vision, features, user stories, tech stories, tests, plans) **do not live in this repo**. They live in the Obsidian vault at:
+
+- `F:/Git/obsidian/ALL/the-hunt/` — project-level vision, architecture, memory, hot cache, run plans.
+- `F:/Git/obsidian/ALL/the-hunt/<module>/` — per-module decomposition (Vision, Logical Architecture, features/ with stories/technical/tests/, cross-cutting-stories/, plans/).
+- `F:/Git/obsidian/ALL/baddabing-framework/development-directives.md` — engineering rules (D1 framework-first, D2 test discipline, D3 event-emitted transitions) that apply here.
+- `F:/Git/obsidian/ALL/design-method.md` — the method those folders follow.
+
+Read the relevant vault notes at session start. Test files in this repo carry header comments naming the specific vault note each test pairs with.
+
 ## Rules
 
 Standard framework rules apply (P1–P5, S1–S9, X1–X5). When adding new
 behaviour, query the catalog first to see if an existing surface already
 solves it. When adding a module, use framework.scaffold.addModule
 from a Claude session (do not hand-write manifests).
+
+**Never delete.** This repo follows the global `never-delete` rule at `~/.claude/rules/never-delete.md` — "removals" are moves to `F:/claude-trash/<session>/<datetime>/`.
+
+**Engineering discipline.** Every Claude session MUST read
+[`docs/engineering-discipline.md`](docs/engineering-discipline.md) at
+session start. The file holds the running rules (R1–R5) and the
+lessons-learned log (L1–Ln) with recurring bug classes and their
+avoidance patterns. When a bug is fixed, append a lesson entry
+(symptom, root cause, fix, regression guard). Rule R1: **every bug fix
+ships a regression test that would have failed before the fix.**
