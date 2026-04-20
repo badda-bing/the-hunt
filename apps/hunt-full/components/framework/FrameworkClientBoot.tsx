@@ -8,21 +8,27 @@
 // reads return empty arrays.
 //
 // CRITICAL — the wiring must happen at module-load time, not inside
-// `useEffect`. The server SSR runs instrumentation.ts and then renders
-// the sidebar with its menu items in the shipped HTML. If the client
-// registers contributions later (in useEffect), React's hydration pass
-// reads an empty registry, renders nothing, and complains:
+// `useEffect`. The server SSR renders the sidebar with its menu items
+// in the shipped HTML; if the client registers contributions later
+// (in useEffect), React's hydration pass reads an empty registry,
+// renders nothing, and complains:
 //
-//     Hydration failed because the initial UI does not match what was
-//     rendered on the server.
+//     Error: Hydration failed because the initial UI does not match
+//     what was rendered on the server.
 //
 // Module-level execution on the client runs before React's hydrate
 // call, so the registry is populated by the time the sidebar's hook
 // reads it. The `typeof window !== 'undefined'` guard short-circuits
-// the side-effect during SSR (where this 'use client' module is still
-// imported to produce the server-rendered HTML of any descendants).
-// Module code runs once per bundle, and registerContributions is
-// idempotent — safe under React StrictMode double-invocation too.
+// the side-effect during SSR (where Next still imports this 'use
+// client' module to render descendants, but the server registry is
+// already populated by instrumentation.ts). Module code runs once per
+// bundle, and every init call is idempotent — safe under React
+// StrictMode double-invocation too.
+//
+// Activities SSE subscription (M7): opens an EventSource against
+// /api/activities/stream so server-side activities (CV extraction,
+// curator dispatches, agent loops) mirror into the client registry
+// and drive DefaultActivityPane.
 
 'use client'
 
@@ -32,13 +38,20 @@ import { registerContributions } from '@baddabing/framework/contributions'
 //   - lifecycle/context-keys — bypasses data/config plumbing
 //   - events/client          — bypasses publish-event (async_hooks)
 //                              + nats-event-bus (net / stream/web)
+//   - activities/client      — bypasses the server barrel's SSE
+//                              handler factory (which pulls in Next's
+//                              Response types)
 import { setContext } from '@baddabing/framework/lifecycle/context-keys'
 import { initClientEvents } from '@baddabing/framework/events/client'
+import { subscribeToActivityStream } from '@baddabing/framework/activities/client'
 import { candidateModule } from '@the-hunt/candidate/manifest'
 import { trackerModule } from '@the-hunt/tracker/manifest'
 
 if (typeof window !== 'undefined') {
   // 1. Client-side event bus — synchronous, no network probe.
+  //    Also auto-wires the activities primitive's publisher to this
+  //    bus so client-side callers of beginActivity() fire events the
+  //    DefaultActivityPane can observe locally.
   initClientEvents()
 
   // 2. Contributions — same payload the server feeds via activateModules.
@@ -50,10 +63,15 @@ if (typeof window !== 'undefined') {
   }
 
   // 3. Activation context keys — modules in this app activate eagerly
-  // on server boot. Mirror that state on the client so visibility
-  // predicates (`module.<id>.active`) evaluate the same way here.
+  //    on server boot. Mirror that state on the client so visibility
+  //    predicates (`module.<id>.active`) evaluate the same way here.
   setContext(`module.${candidateModule.id}.active`, true)
   setContext(`module.${trackerModule.id}.active`, true)
+
+  // 4. Activities SSE — mirrors server-side activities into the
+  //    client registry. Fire-and-forget; the subscribe returns an
+  //    unsubscribe but this module lives for the whole tab lifetime.
+  subscribeToActivityStream({ url: '/api/activities/stream' })
 }
 
 /**
